@@ -13,7 +13,7 @@ Scenario
 -------------
 The Mars Explorer scenario was presented by L Steels.
 
- **The objectives are**
+**The objectives are**
 
  * to explore a distant planet, and in particular,
  * to collect sample of a precious rock
@@ -21,8 +21,8 @@ The Mars Explorer scenario was presented by L Steels.
  * Agents are limited in the amount of sample they can carry at a given time
  * Obstacles impede motion in some cells
 
- **The model includes**
 
+**The model includes**
  * mother ship broadcasts radio signal which weakens with distance. Thus, an agent knows how to return to the mother ship and how far away it is.
  * no map of the area is available – and the agents have insufficient space to store one
  * We are interested in the collaborative best solution which is based on the amount of sample collected in a specified number of time steps.
