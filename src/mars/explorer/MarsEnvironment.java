@@ -1,8 +1,7 @@
 package mars.explorer;
 
-import simbad.gui.TestSimbatch;
-import simbad.sim.Arch;
 import simbad.sim.EnvironmentDescription;
+
 
 import javax.vecmath.Vector3d;
 
@@ -13,6 +12,6 @@ import javax.vecmath.Vector3d;
 public class MarsEnvironment extends EnvironmentDescription {
     public MarsEnvironment(){
         //add(new Arch(new Vector3d(3,0,-3),this));
-        add(new Rover(new Vector3d(0, 0, 0),"my robot"));
+        add(new Rover(new Vector3d(0, 0, 0),"My Rover"));
     }
 }
