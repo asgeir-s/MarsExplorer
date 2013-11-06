@@ -1,11 +1,8 @@
 package examples;
 
 /**
- * Created with IntelliJ IDEA.
- * User: asgeir & merca
- * Date: 06.11.13
- * Time: 12:55
- * To change this template use File | Settings | File Templates.
+ * Creator: asgeir
+ * Date: 06.11.13, 12:55
  */
 import simbad.gui.Simbad;
 import simbad.sim.*;

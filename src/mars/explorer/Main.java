@@ -1,12 +1,15 @@
 package mars.explorer;
 
+import simbad.gui.Simbad;
+
 /**
- * Created with IntelliJ IDEA.
- * User: asgeir
- * Date: 06.11.13
- * Time: 13:36
- * To change this template use File | Settings | File Templates.
+ * Creator: asgeir
+ * Date: 06.11.13, 13:37
  */
 public class Main {
+
+    public static void main(String[] args) {
+        Simbad frame = new Simbad(new MarsEnvironment() ,false);
+    }
 
 }
