@@ -1,6 +1,6 @@
 Steels Mars Explorer,
 =============
-using <a href="http://simbad.sourceforge.net/">Simbad</a>.
+using <a href="http://jade.tilab.com/">Jade</a> and <a href="http://simbad.sourceforge.net/">Simbad</a>.
 
 Requirements
 -------------

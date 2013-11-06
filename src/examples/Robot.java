@@ -7,6 +7,7 @@ package examples;
 import simbad.gui.Simbad;
 import simbad.sim.*;
 import simbad.sim.RangeSensorBelt;
+
 import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
 
