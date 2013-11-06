@@ -7,13 +7,12 @@ Requirements
 **To make this project run**
 
 Install Java3D into your java jdk directory:
-2 <a href="https://java3d.java.net/binary-builds.html">Download Java3D</a>
-3 <a href="http://download.java.net/media/java3d/builds/release/1.5.1/README-download">Installation
+1. <a href="https://java3d.java.net/binary-builds.html">Download Java3D</a>
+2. <a href="http://download.java.net/media/java3d/builds/release/1.5.1/README-download">Installation
 instruction</a>
 
 **Get vecmath**
-
-4 Download <a href="http://mirrors.ibiblio.org/pub/mirrors/maven/java3d/jars/vecmath-1.3.1
+3. Download <a href="http://mirrors.ibiblio.org/pub/mirrors/maven/java3d/jars/vecmath-1.3.1
 .jar">vecmath-1.3.1.jar</a> and put it in the lib folder
 
 Scenario
