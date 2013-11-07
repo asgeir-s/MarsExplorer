@@ -1,4 +1,4 @@
-package examples;
+package examples.simbad;
 
 /**
  * Creator: asgeir
@@ -75,7 +75,7 @@ public class Robot {
     public static void main(String[] args) {
         // request antialising
         System.setProperty("j3d.implicitAntialiasing", "true");
-        // create Simbad instance with given environment
+        // create simbad instance with given environment
         Simbad frame = new Simbad(new MyEnv(), false);
     }
 }

@@ -1,6 +1,9 @@
 package mars.explorer;
 
 import simbad.sim.Agent;
+import simbad.sim.CherryAgent;
+import simbad.sim.SimpleAgent;
+
 import javax.vecmath.Vector3d;
 
 /**
@@ -8,6 +11,7 @@ import javax.vecmath.Vector3d;
  * Date: 06.11.13, 14:20
  */
 public class Rover extends Agent {
+
     public Rover (Vector3d position, String name) {
         super(position,name);
     }
@@ -24,6 +28,18 @@ public class Rover extends Agent {
             // frequently change orientation
             if ((getCounter() % 100)==0)
                 setRotationalVelocity(Math.PI/2 * (0.5 - Math.random()));
+        }
+        // Test if there is an agent near . */
+        if (anOtherAgentIsVeryNear()){
+            SimpleAgent agent = getVeryNearAgent();
+
+            if (agent instanceof CherryAgent){
+                agent.detach();
+                // hasRock.
+                System.out.println("rock picked !");
+
+            }
+
         }
     }
 }
