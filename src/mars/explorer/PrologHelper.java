@@ -51,15 +51,13 @@ public class PrologHelper{
             BufferedWriter writer = new BufferedWriter(new FileWriter(knowledgeFile.getAbsoluteFile(),
                     true
                     ));
-           //if(getTheKnowledgeFileWithoutTisClause(clause + '.') == null) {
-                System.out.println("Writes to file: " + clause + '.');
+           if(getTheKnowledgeFileWithoutTisClause(clause + '.') == null) {
                 writer.write(clause + '.');
                 writer.newLine();
 
 
-          // }
+           }
             writer.close();
-            printFile(knowledgeFile);
         } catch (IOException e) {
             return false;
         }
@@ -84,7 +82,6 @@ public class PrologHelper{
             knowledgeFile = new File(knowledgeFileName);
             newFile.renameTo(knowledgeFile);
         }
-        printFile(knowledgeFile);
         query("consult('" + knowledgeFileName + "')");
         return true;
     }
@@ -199,7 +196,6 @@ public class PrologHelper{
                     foundLine=true;
                     continue;
                 }
-                System.out.println("Skriver til fil " + currentLine);
                 writer.write(currentLine);
                 writer.newLine();
             }
@@ -211,8 +207,6 @@ public class PrologHelper{
             e.printStackTrace();
         }
         if(foundLine) {
-
-            printFile(tempFile);
             return tempFile;
         }
         else {
