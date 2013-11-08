@@ -11,7 +11,9 @@ Install Java3D into your java jdk directory:
 instruction</a>
 
 Get vecmath:
-* Download <a href="http://www.findjar.com/jar/java3d/jars/vecmath-1.3.1.jar.html">vecmath-1.3.1.jar</a> and put it in the lib folder
+* Download <a href="http://www.findjar.com/jar/java3d/jars/vecmath-1.3.1.jar.html">vecmath-1.3.1
+.jar</a> and put it in the lib folder in this project.
+
 
 Get Swi-Prolog, with JHL (Java - Prolog binding):
 * Follow <a href="http://www.sognefest.net/swi-prolog-and-java-on-linux-fedoraubuntususe/">this
@@ -32,7 +34,8 @@ The Mars Explorer scenario was presented by L Steels.
 
 
 **The model includes**
- * mother ship broadcasts radio signal which weakens with distance. Thus, an agent knows how to return to the mother ship and how far away it is.
+ * mother ship broadcasts light which weakens with distance. Thus, an agent knows how to return to the
+ mother ship and how far away it is.
  * no map of the area is available – and the agents have insufficient space to store one
  * We are interested in the collaborative best solution which is based on the amount of sample collected in a specified number of time steps.
  * There is no means of contacting other agents directly. The only communication is stigmergic (by modifying the environment itself)

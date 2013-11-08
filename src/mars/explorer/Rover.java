@@ -3,6 +3,7 @@ package mars.explorer;
 import simbad.sim.Agent;
 import simbad.sim.CherryAgent;
 import simbad.sim.SimpleAgent;
+import jpl.*;
 
 import javax.vecmath.Vector3d;
 
@@ -12,10 +13,16 @@ import javax.vecmath.Vector3d;
  */
 public class Rover extends Agent {
 
-    public Rover (Vector3d position, String name) {
-        super(position,name);
+    // for Prolog quarying
+    Query q;
+
+    public Rover(Vector3d position, String name) {
+        super(position, name);
     }
-    public void initBehavior() {}
+
+    public void initBehavior() {
+        q = new Query("consult('rover_knowledge.pl')");
+    }
 
     public void performBehavior() {
         if (collisionDetected()) {
@@ -26,20 +33,24 @@ public class Rover extends Agent {
             // progress at 0.5 m/s
             setTranslationalVelocity(0.5);
             // frequently change orientation
-            if ((getCounter() % 100)==0)
-                setRotationalVelocity(Math.PI/2 * (0.5 - Math.random()));
+            if ((getCounter() % 100) == 0)
+                setRotationalVelocity(Math.PI / 2 * (0.5 - Math.random()));
         }
         // Test if there is an agent near . */
-        if (anOtherAgentIsVeryNear()){
-            SimpleAgent agent = getVeryNearAgent();
+        if (anOtherAgentIsVeryNear()) {
+            boolean hasSolution = false;
+            q = new Query("hasRock");
 
-            if (agent instanceof CherryAgent){
-                agent.detach();
-                // hasRock.
-                System.out.println("rock picked !");
+            if (q.goal().isJTrue()) {
+                SimpleAgent agent = getVeryNearAgent();
 
+                if (agent instanceof CherryAgent) {
+                    agent.detach();
+                    q = new Query("assert(hasRock)");
+                    System.out.println("rock picked !");
+
+                }
             }
-
         }
     }
 }
