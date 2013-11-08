@@ -13,6 +13,7 @@ import java.util.Random;
  * Date: 06.11.13, 14:15
  */
 public class MarsEnvironment extends EnvironmentDescription {
+
     Random random = new Random();
     public MarsEnvironment(){
         light1IsOn = true;
@@ -42,9 +43,9 @@ public class MarsEnvironment extends EnvironmentDescription {
         light1SetPosition(homeX,1,homeY);
         light2SetPosition(homeX,1,homeY);
         // adding the mars rovers
-        add(new Rover(new Vector3d(homeX,0,homeY),"My Rover"));
-        add(new Rover(new Vector3d(homeX,0,homeY),"My Rover"));
-        add(new Rover(new Vector3d(homeX,0,homeY),"My Rover"));
+        add(new Rover(new Vector3d(homeX,0,homeY),"Rover1"));
+        add(new Rover(new Vector3d(homeX,0,homeY),"Rover2"));
+        add(new Rover(new Vector3d(homeX,0,homeY),"Rover3"));
 
         //places rocks in random clusters in the world
         ArrayList<CherryAgent> rocks = getRocks();
@@ -56,7 +57,7 @@ public class MarsEnvironment extends EnvironmentDescription {
     private ArrayList<CherryAgent> getRocks() {
         ArrayList<CherryAgent> rocks = new ArrayList<CherryAgent>();
         int clusters = random.nextInt(4);
-        clusters = clusters +2;
+        clusters = clusters +20;
         System.out.println("number of clusters:" + clusters);
         for (int i=0; i<clusters; i++) {
             rocks.addAll(getRockCluster());

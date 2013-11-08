@@ -17,9 +17,9 @@ public class PrologHelper{
     String knowledgeFileName;
     String tempFilename;
 
-    public PrologHelper() {
-        knowledgeFileName = "dynamic_knowledge.pl";
-        tempFilename = "myTempFile.pl";
+    public PrologHelper(String name) {
+        knowledgeFileName = "knowledge/" + name + "_dynamic_knowledge.pl";
+        tempFilename = "knowledge/" + name + "_TempFile.pl";
 
         tempFile = new File(tempFilename);
         knowledgeFile = new File(knowledgeFileName);
@@ -214,6 +214,11 @@ public class PrologHelper{
         }
 
     }
+
+    /**
+     * Print a file (debugging)
+     * @param file
+     */
     public void printFile(File file) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file.getAbsoluteFile()));
@@ -229,5 +234,13 @@ public class PrologHelper{
             e.printStackTrace();
         }
 
+    }
+
+    /**
+     * Should be called before end
+     */
+    public void deleteFiles() {
+        tempFile.delete();
+        knowledgeFile.delete();
     }
 }

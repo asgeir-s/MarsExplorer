@@ -18,7 +18,7 @@ public class PrologHelperTest {
     @Before
     public void setUp() {
         PrologHelper.query("['foo.pl']");
-        prolog = new PrologHelper();
+        prolog = new PrologHelper("Test");
     }
 
     @org.junit.Test

@@ -18,5 +18,6 @@ target/
 *.jar
 
 # Generated file
-dynamic_knowledge.pl
-myTempFile.pl
+*_dynamic_knowledge.pl
+*_TempFile.pl
+*.class

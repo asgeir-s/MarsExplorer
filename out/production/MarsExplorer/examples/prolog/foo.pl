@@ -10,3 +10,5 @@ p(b).
     descendent_of(X, Y) :-
         child_of(Z, Y),
         descendent_of(X, Z).
+
+solution.

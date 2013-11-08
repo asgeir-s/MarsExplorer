@@ -3,7 +3,6 @@ package mars.explorer;
 import simbad.sim.Agent;
 import simbad.sim.CherryAgent;
 import simbad.sim.SimpleAgent;
-import jpl.*;
 
 import javax.vecmath.Vector3d;
 
@@ -13,15 +12,15 @@ import javax.vecmath.Vector3d;
  */
 public class Rover extends Agent {
 
-    // for Prolog quarying
-    Query q;
+    PrologHelper prolog; // to have a dynamically knowledge base we have to initialize this class
 
     public Rover(Vector3d position, String name) {
         super(position, name);
+        prolog = new PrologHelper(name);
     }
 
     public void initBehavior() {
-        q = new Query("consult('rover_knowledge.pl')");
+        PrologHelper.query("consult('rover_knowledge.pl')");
     }
 
     public void performBehavior() {
@@ -39,17 +38,20 @@ public class Rover extends Agent {
         // Test if there is an agent near . */
         if (anOtherAgentIsVeryNear()) {
             boolean hasSolution = false;
-            q = new Query("hasRock");
+            ;
 
-            if (q.goal().isJTrue()) {
+            if (PrologHelper.query("hasRock") == null) {
                 SimpleAgent agent = getVeryNearAgent();
 
                 if (agent instanceof CherryAgent) {
                     agent.detach();
-                    q = new Query("assert(hasRock)");
+                    prolog.assertToKB("hasRock");
                     System.out.println("rock picked !");
 
                 }
+            }
+            else {
+                System.out.println("Found a rock, but is already carrying a rock");
             }
         }
     }
