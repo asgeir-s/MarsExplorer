@@ -1,6 +1,7 @@
 Steels Mars Explorer,
 =============
-using <a href="http://simbad.sourceforge.net/">Simbad</a>.
+using <a href="http://simbad.sourceforge.net/">Simbad</a> and <a href="http://www.swi-prolog.org/">Swi-Prolog</a> with JPL (Java - Prolog
+binding).
 
 Requirements
 -------------
@@ -11,6 +12,11 @@ instruction</a>
 
 Get vecmath:
 * Download <a href="http://www.findjar.com/jar/java3d/jars/vecmath-1.3.1.jar.html">vecmath-1.3.1.jar</a> and put it in the lib folder
+
+Get Swi-Prolog, with JHL (Java - Prolog binding):
+* Follow <a href="http://www.sognefest.net/swi-prolog-and-java-on-linux-fedoraubuntususe/">this
+guide</a> to download and compile Swp-Prolog with JHL.
+
 
 Scenario
 -------------
