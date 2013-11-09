@@ -12,7 +12,8 @@ import javax.vecmath.Vector3d;
  */
 public class Rover extends Agent {
 
-    PrologHelper prolog; // to have a dynamically knowledge base we have to initialize this class
+    PrologHelper prolog; // to have a dynamically knowledge base (individual knowledge) we have to
+    // initialize this class
 
     public Rover(Vector3d position, String name) {
         super(position, name);
@@ -20,6 +21,7 @@ public class Rover extends Agent {
     }
 
     public void initBehavior() {
+        // this is the static common knowledg for all rovers
         PrologHelper.query("consult('rover_knowledge.pl')");
     }
 
@@ -51,7 +53,7 @@ public class Rover extends Agent {
                 }
             }
             else {
-                //System.out.println("Found a rock, but is already carrying a rock");
+                System.out.println("Found a rock, but is already carrying a rock");
             }
         }
     }
