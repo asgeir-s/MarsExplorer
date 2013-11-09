@@ -17,9 +17,12 @@ public class PrologHelper{
     String knowledgeFileName;
     String tempFilename;
 
-    public PrologHelper(String name) {
-        knowledgeFileName = "knowledge/" + name + "_dynamic_knowledge.pl";
-        tempFilename = "knowledge/" + name + "_TempFile.pl";
+    String identified;
+
+    public PrologHelper(String identifiedInn) {
+        this.identified = identifiedInn.toLowerCase();
+        knowledgeFileName = "knowledge/" + identified + "_dynamic_knowledge.pl";
+        tempFilename = "knowledge/" + identified + "_TempFile.pl";
 
         tempFile = new File(tempFilename);
         knowledgeFile = new File(knowledgeFileName);
@@ -47,6 +50,7 @@ public class PrologHelper{
      * @return true if clause is added to knowledgeFile or are present in the knowledgeFile from before
      */
     public boolean assertToKB(String clause) {
+        clause = identified + clause;
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(knowledgeFile.getAbsoluteFile(),
                     true
@@ -75,6 +79,7 @@ public class PrologHelper{
      * @return true if clause was removed or not pressent in knowledgeFile
      */
     public boolean retractFromKB(String clause) {
+        clause = identified + clause;
         query("unload_file('" + knowledgeFileName + "')");
         File newFile = getTheKnowledgeFileWithoutTisClause(clause + '.');
         if (newFile != null) {
@@ -84,6 +89,74 @@ public class PrologHelper{
         }
         query("consult('" + knowledgeFileName + "')");
         return true;
+    }
+
+    /**
+     * Used for agent specific knowledge
+     * @param inQuery
+     * @return hash-table with all solutions if query has solution, null otherwise
+     */
+    public Hashtable[] queryIndividual(String inQuery) {
+        inQuery = identified + inQuery;
+        Query q = new Query(inQuery);
+        try {
+            Hashtable[] result = q.allSolutions();
+            if(result.length >0) {
+                return result;
+            }
+            else {
+                return null;
+            }
+        }
+        catch (PrologException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Used for agent specific knowledge
+     * @param s
+     * @param terms
+     * @return hash-table with all solutions if query has solution, null otherwise
+     */
+    public Hashtable[] queryIndividual(String s, Term[] terms) {
+        s = identified + s;
+        Query q = new Query(s, terms);
+        try {
+            Hashtable[] result = q.allSolutions();
+            if(result.length >0) {
+                return result;
+            }
+            else {
+                return null;
+            }
+        }
+        catch (PrologException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Used for agent specific knowledge
+     * @param s
+     * @param term
+     * @return hash-table with all solutions if query has solution, null otherwise
+     */
+    public Hashtable[] queryIndividual(String s, Term term) {
+        s = identified + s;
+        Query q = new Query(s, term);
+        try {
+            Hashtable[] result = q.allSolutions();
+            if(result.length >0) {
+                return result;
+            }
+            else {
+                return null;
+            }
+        }
+        catch (PrologException e) {
+            return null;
+        }
     }
 
     /**
