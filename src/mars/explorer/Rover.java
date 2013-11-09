@@ -40,18 +40,18 @@ public class Rover extends Agent {
             boolean hasSolution = false;
             ;
 
-            if (PrologHelper.query("hasRock") == null) {
+            if (prolog.queryIndividual("hasRock") == null) {
                 SimpleAgent agent = getVeryNearAgent();
 
                 if (agent instanceof CherryAgent) {
                     agent.detach();
                     prolog.assertToKB("hasRock");
-                    System.out.println("rock picked !");
+                    System.out.println("rock picked! by " + name);
 
                 }
             }
             else {
-                System.out.println("Found a rock, but is already carrying a rock");
+                //System.out.println("Found a rock, but is already carrying a rock");
             }
         }
     }

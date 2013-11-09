@@ -32,31 +32,31 @@ public class PrologHelperTest {
         prolog.assertToKB("dyn(d)");
         prolog.assertToKB("hasRock");
 
-        Assert.assertNotNull(PrologHelper.query("dyn(b)"));
+        Assert.assertNotNull(prolog.queryIndividual("dyn(b)"));
         prolog.retractFromKB("dyn(b)");
-        Assert.assertNull(PrologHelper.query("dyn(b)"));
+        Assert.assertNull(prolog.queryIndividual("dyn(b)"));
 
-        Assert.assertNotNull(PrologHelper.query("dyn(a)"));
-        Assert.assertNotNull(PrologHelper.query("dyn(c)"));
-        Assert.assertNotNull(PrologHelper.query("hasRock"));
-        Assert.assertNull(PrologHelper.query("fake"));
+        Assert.assertNotNull(prolog.queryIndividual("dyn(a)"));
+        Assert.assertNotNull(prolog.queryIndividual("dyn(c)"));
+        Assert.assertNotNull(prolog.queryIndividual("hasRock"));
+        Assert.assertNull(prolog.queryIndividual("fake"));
     }
 
     @org.junit.Test
     public void testRetractFromKB() throws Exception {
         prolog.assertToKB("dynamic");
-        Assert.assertNotNull(PrologHelper.query("dynamic"));
+        Assert.assertNotNull(prolog.queryIndividual("dynamic"));
         prolog.retractFromKB("dynamic");
-        Assert.assertNull(PrologHelper.query("dynamic"));
+        Assert.assertNull(prolog.queryIndividual("dynamic"));
         prolog.assertToKB("dynamic");
-        Assert.assertNotNull(PrologHelper.query("dynamic"));
+        Assert.assertNotNull(prolog.queryIndividual("dynamic"));
 
         prolog.assertToKB("dynamic2");
-        Assert.assertNotNull(PrologHelper.query("dynamic2"));
+        Assert.assertNotNull(prolog.queryIndividual("dynamic2"));
         prolog.retractFromKB("dynamic2");
-        Assert.assertNull(PrologHelper.query("dynamic2"));
+        Assert.assertNull(prolog.queryIndividual("dynamic2"));
         prolog.assertToKB("dynamic2");
-        Assert.assertNotNull(PrologHelper.query("dynamic2"));
+        Assert.assertNotNull(prolog.queryIndividual("dynamic2"));
     }
 
     @org.junit.Test
