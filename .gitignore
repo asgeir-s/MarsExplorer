@@ -18,4 +18,4 @@ target/
 
 # Generated file
 *_dynamic_knowledge.pl
-*_TempFile.pl
+*TempFile.pl
