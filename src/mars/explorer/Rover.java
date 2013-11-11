@@ -1,8 +1,7 @@
 package mars.explorer;
 
-import jpl.Atom;
-import jpl.Term;
-import jpl.Variable;
+import jpl.*;
+import jpl.Float;
 import simbad.sim.*;
 
 import javax.vecmath.Color3f;
@@ -43,10 +42,31 @@ public class Rover extends Robot {
         double[] position = new double[3];
         coord.get(position);
 
-        // ask Prolog what to do
+        /**
+         *
+         * tell Prolog whats the situation and ask what to do
+         *
+         * syntax: todo(Agent, xPos, yPos, AgentNearType, Answer).
+         *
+         * Possible answers:
+         * home (and drop crums)
+         * pickup
+         * search
+         * drop
+         */
+
+        // tell Prolog whats the situation and ask what to do
         Variable X = new Variable("X");
         Atom nameAtom = new Atom(name);
-        Term arg[] = {nameAtom, X};
+        Float xPos = new Float(position[0]);
+        Float yPos = new Float(position[2]);
+        Atom neraAgent = new Atom("non");
+
+        if(anOtherAgentIsVeryNear()) {
+            neraAgent = new Atom(getVeryNearAgent().getName());
+        }
+
+        Term arg[] = {nameAtom,xPos, yPos, neraAgent, X};
         Hashtable[] answer = PrologHelper.query("todo", arg);
 
         // if we have an answer
@@ -56,41 +76,27 @@ public class Rover extends Robot {
 
             if (toDoString.equals("home")) {
                 setColor(new Color3f(0, 1, 0));
-                if (anOtherAgentIsVeryNear()) {
-                    SimpleAgent nearAgent = getVeryNearAgent();
-
-                    if (nearAgent.getName().equals("spaceship")) {
-                        PrologHelper.retractFromKB("hasRock(" + name + ")");
-                        System.out.println("rock delivered");
-                        setColor(new Color3f(0, 1, 0));
-
-                    }
-                }
                 goTowardsLight();
+            }
+
+            else if (toDoString.equals("pickup")) {
+                getVeryNearAgent().detach();
+                PrologHelper.assertToKB("hasRock(" + name + ")");
+                System.out.println("rock picked! by " + name);
             }
 
             else if (toDoString.equals("search")) {
                 setColor(new Color3f(1, 1, 1));
-                if (anOtherAgentIsVeryNear()) {
-                    SimpleAgent agent = getVeryNearAgent();
-
-                    if (agent.getName().equals("rock")) {
-                        agent.detach();
-                        PrologHelper.assertToKB("hasRock(" + name + ")");
-                        System.out.println("rock picked! by " + name);
-                    }
-                }
-
                 setTranslationalVelocity(0.5);
                 if ((getCounter() % 100) == 0)
                     setRotationalVelocity(Math.PI / 2 * (0.5 - Math.random()));
-
-
             }
-        }
-        // if the agent is leaving this world, turn back towards the light!
-        if (position[0] >= 10 || position[0] <= -10 || position[2] >= 10 || position[2] <= -10) {
-            goTowardsLight();
+
+            else if (toDoString.equals("drop")) {
+                PrologHelper.retractFromKB("hasRock(" + name + ")");
+                System.out.println("rock delivered");
+                setColor(new Color3f(0, 1, 0));
+            }
         }
     }
 
