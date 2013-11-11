@@ -45,7 +45,7 @@ public class MarsEnvironment extends EnvironmentDescription {
         // adding the mars rovers
         Rover newRover;
         for (int i = 0; i< NUMBEROFROVERS; i++) {
-            newRover = new Rover(new Vector3d(homeX+(i*0.5),0,homeY+(i*0.5)),"Rover" + i);
+            newRover = new Rover(new Vector3d(homeX+(i*0.5),0,homeY+(i*0.5)),"Rover" + i, this);
             add(newRover);
         }
 
@@ -57,6 +57,7 @@ public class MarsEnvironment extends EnvironmentDescription {
         CherryAgent spaceship = new CherryAgent(new Vector3d(homeX, -1f, homeY), "spaceship", 1f);
         spaceship.setColor(new Color3f(0, 0, 1));
         add(spaceship);
+
     }
 
     private ArrayList<CherryAgent> getRocks() {
@@ -113,5 +114,11 @@ public class MarsEnvironment extends EnvironmentDescription {
             System.out.println("        -adding sock on: " + carryX + " - " + carryY);
         }
         return rocks;
+    }
+
+    public void addBreadcrumb(Double xPos, Double yPos) {
+        CherryAgent breadcrumb = new CherryAgent(new Vector3d(xPos, .2f, yPos), "breadcrumb", 1f);
+        breadcrumb.setColor(new Color3f(1, 1, 1));
+        add(breadcrumb);
     }
 }

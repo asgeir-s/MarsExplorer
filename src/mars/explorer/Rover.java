@@ -18,10 +18,12 @@ public class Rover extends Robot {
     private LightSensor lightSensorLeft;
     private LightSensor lightSensorRight;
     private String name;
+    private MarsEnvironment environment;
 
-    public Rover(Vector3d position, String name) {
+    public Rover(Vector3d position, String name, MarsEnvironment environment) {
         super(position, name);
         this.name = name.toLowerCase();
+        this.environment = environment;
 
         lightSensorLeft = RobotFactory.addLightSensorLeft(this);
         lightSensorRight = RobotFactory.addLightSensorRight(this);
@@ -32,6 +34,7 @@ public class Rover extends Robot {
         PrologHelper.query("consult('rover_knowledge.pl')");
         PrologHelper.assertToKB("hasRock(" + name + ") :- false"); // at start this rover does not
         // have a rock
+
     }
 
     public void performBehavior() {
@@ -74,9 +77,19 @@ public class Rover extends Robot {
             Term toDoTerm = (Term) answer[0].get("X"); // take the first answer
             String toDoString = toDoTerm.name();
 
+            if ((getCounter() % 100) == 0) {
+                System.out.println(name + " todo(" + nameAtom + ", " + xPos + ", " + yPos + ", " +
+                        "" + neraAgent + ", Answer)");
+                System.out.println(name + " Answer: " + toDoString);
+            }
+
             if (toDoString.equals("home")) {
                 setColor(new Color3f(0, 1, 0));
                 goTowardsLight();
+                if ((getCounter() % 100) == 0) {
+                    environment.addBreadcrumb(xPos.doubleValue(),yPos.doubleValue());
+                    System.out.println("Breadcrumb added");
+                }
             }
 
             else if (toDoString.equals("pickup")) {

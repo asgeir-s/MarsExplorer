@@ -1,11 +1,11 @@
-todo(_, xPos, yPos, _, home) :-
-    xPos > 10
+todo(_, XPos, YPos, _, home) :-
+    XPos > 10
     ;
-    xPos < -10
+    XPos < -10
     ;
-    yPos > 10
+    YPos > 10
     ;
-    yPos < -10.
+    YPos < -10.
 
 todo(Agent, _, _, AgentNearType, drop) :-
     hasRock(Agent),
@@ -21,4 +21,5 @@ todo(Agent, _, _, _, home) :-
     hasRock(Agent),
     !.
 
+% top level behaviour
 todo(_, _, _, _, search).
