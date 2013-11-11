@@ -3,6 +3,7 @@ package mars.explorer;
 import jpl.*;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 /**
@@ -11,35 +12,22 @@ import java.util.Hashtable;
  */
 public class PrologHelper{
 
-    File knowledgeFile;
-    File tempFile;
+    static File knowledgeFile = newFile("knowledge/dynamic_knowledge.pl");
+    static File tempFile = newFile("knowledge/TempFile.pl");
 
-    String knowledgeFileName;
-    String tempFilename;
-
-    String identified;
-
-    public PrologHelper(String identifiedInn) {
-        this.identified = identifiedInn.toLowerCase();
-        knowledgeFileName = "knowledge/" + identified + "_dynamic_knowledge.pl";
-        tempFilename = "knowledge/" + identified + "_TempFile.pl";
-
-        tempFile = new File(tempFilename);
-        knowledgeFile = new File(knowledgeFileName);
-
-        tempFile.delete();
-        knowledgeFile.delete();
-
-        tempFile = new File(tempFilename);
-        knowledgeFile = new File(knowledgeFileName);
+    public static File newFile(String filePath) {
+        File file = new File(filePath);
+        file.delete();
+        file = new File(filePath);
 
         try {
-            knowledgeFile.createNewFile();
-            tempFile.createNewFile();
+            file.createNewFile();
         }  catch (IOException e) {
             e.printStackTrace();
         }
+        return file;
     }
+
 
     /**
      * assert a clause to the knowledge base. Use Prolog Syntax without .
@@ -49,13 +37,13 @@ public class PrologHelper{
      * @param clause
      * @return true if clause is added to knowledgeFile or are present in the knowledgeFile from before
      */
-    public boolean assertToKB(String clause) {
-        clause = identified + clause;
+    public static boolean assertToKB(String clause) {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(knowledgeFile.getAbsoluteFile(),
                     true
                     ));
-           if(getTheKnowledgeFileWithoutTisClause(clause + '.') == null) {
+           if(getTheKnowledgeFileWithoutTisClause(knowledgeFile, tempFile,
+                   clause + '.') == null) {
                 writer.write(clause + '.');
                 writer.newLine();
 
@@ -66,7 +54,7 @@ public class PrologHelper{
             return false;
         }
 
-        query("consult('" + knowledgeFileName + "')");
+        query("consult('" + knowledgeFile.getPath() + "')");
         return true;
     }
 
@@ -78,85 +66,16 @@ public class PrologHelper{
      * @param clause
      * @return true if clause was removed or not pressent in knowledgeFile
      */
-    public boolean retractFromKB(String clause) {
-        clause = identified + clause;
-        query("unload_file('" + knowledgeFileName + "')");
-        File newFile = getTheKnowledgeFileWithoutTisClause(clause + '.');
+    public static boolean retractFromKB(String clause) {
+        query("unload_file('" + knowledgeFile.getPath() + "')");
+        File newFile = getTheKnowledgeFileWithoutTisClause(knowledgeFile, tempFile, clause + '.');
         if (newFile != null) {
             knowledgeFile.delete();
-            knowledgeFile = new File(knowledgeFileName);
+            knowledgeFile = new File(knowledgeFile.getPath());
             newFile.renameTo(knowledgeFile);
         }
-        query("consult('" + knowledgeFileName + "')");
+        query("consult('" + knowledgeFile.getPath() + "')");
         return true;
-    }
-
-    /**
-     * Used for agent specific knowledge
-     * @param inQuery
-     * @return hash-table with all solutions if query has solution, null otherwise
-     */
-    public Hashtable[] queryIndividual(String inQuery) {
-        inQuery = identified + inQuery;
-        Query q = new Query(inQuery);
-        try {
-            Hashtable[] result = q.allSolutions();
-            if(result.length >0) {
-                return result;
-            }
-            else {
-                return null;
-            }
-        }
-        catch (PrologException e) {
-            return null;
-        }
-    }
-
-    /**
-     * Used for agent specific knowledge
-     * @param s
-     * @param terms
-     * @return hash-table with all solutions if query has solution, null otherwise
-     */
-    public Hashtable[] queryIndividual(String s, Term[] terms) {
-        s = identified + s;
-        Query q = new Query(s, terms);
-        try {
-            Hashtable[] result = q.allSolutions();
-            if(result.length >0) {
-                return result;
-            }
-            else {
-                return null;
-            }
-        }
-        catch (PrologException e) {
-            return null;
-        }
-    }
-
-    /**
-     * Used for agent specific knowledge
-     * @param s
-     * @param term
-     * @return hash-table with all solutions if query has solution, null otherwise
-     */
-    public Hashtable[] queryIndividual(String s, Term term) {
-        s = identified + s;
-        Query q = new Query(s, term);
-        try {
-            Hashtable[] result = q.allSolutions();
-            if(result.length >0) {
-                return result;
-            }
-            else {
-                return null;
-            }
-        }
-        catch (PrologException e) {
-            return null;
-        }
     }
 
     /**
@@ -251,7 +170,8 @@ public class PrologHelper{
      * @return a new file with the same content as the knowledgeFile, except without the 'line',
      * or null if 'line' is not in knowledgeFile
      */
-    private File getTheKnowledgeFileWithoutTisClause(String linetoRemove) {
+    private static File getTheKnowledgeFileWithoutTisClause(File knowledgeFile, File tempFile,
+                                                     String linetoRemove) {
 
         BufferedWriter writer = null;
         Boolean foundLine = false;
@@ -309,11 +229,12 @@ public class PrologHelper{
 
     }
 
-    /**
-     * Should be called before end
-     */
-    public void deleteFiles() {
-        tempFile.delete();
-        knowledgeFile.delete();
+
+    public static ArrayList<ArrayList<String>> hashtableTableToArraylist(Hashtable[] hw){
+        ArrayList<ArrayList<String>> newArray = new ArrayList<ArrayList<String>>();
+        for(int i = 0; i< hw.length; i++) {
+            newArray.add(i,  new ArrayList<String>(hw[i].values()));
+        }
+        return newArray;
     }
 }

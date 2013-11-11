@@ -2,10 +2,9 @@ package mars.explorer;
 
 import simbad.sim.*;
 
+import javax.vecmath.Color3f;
 import javax.vecmath.Vector3d;
-import javax.vecmath.Vector3f;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Random;
 
 /**
@@ -16,48 +15,54 @@ public class MarsEnvironment extends EnvironmentDescription {
 
     Random random = new Random();
     public MarsEnvironment(){
+        final int NUMBEROFROVERS = 5;
+
         light1IsOn = true;
-
-
         light2IsOn = false;
         ambientLightColor = darkgray;
         light1Color = white;
         light2Color = white;
-        wallColor = blue;
+        wallColor = white;
         archColor = green;
         boxColor = white;
         floorColor = red;
         backgroundColor = black;
         hasAxis = true;
 
-        // landing the mother ship at a random location
-        int homeX = random.nextInt(10);
+        // landing the spaceship  at a random location
+        int homeX = random.nextInt(6);
         if(random.nextBoolean()) {
             homeX = -homeX;
         }
 
-        int homeY = random.nextInt(10);
+        int homeY = random.nextInt(6);
         if(random.nextBoolean()) {
             homeY = -homeY;
         }
-        light1SetPosition(homeX,1,homeY);
-        light2SetPosition(homeX,1,homeY);
+        light1SetPosition(homeX,1.5,homeY);
+        light2SetPosition(homeX,1.5,homeY);
+
         // adding the mars rovers
-        add(new Rover(new Vector3d(homeX,0,homeY),"Rover1"));
-        add(new Rover(new Vector3d(homeX,0,homeY),"Rover2"));
-        add(new Rover(new Vector3d(homeX,0,homeY),"Rover3"));
+        Rover newRover;
+        for (int i = 0; i< NUMBEROFROVERS; i++) {
+            newRover = new Rover(new Vector3d(homeX+(i*0.5),0,homeY+(i*0.5)),"Rover" + i);
+            add(newRover);
+        }
 
         //places rocks in random clusters in the world
         ArrayList<CherryAgent> rocks = getRocks();
         for(CherryAgent rock: rocks) {
             add(rock);
         }
+        CherryAgent spaceship = new CherryAgent(new Vector3d(homeX, -1f, homeY), "spaceship", 1f);
+        spaceship.setColor(new Color3f(0, 0, 1));
+        add(spaceship);
     }
 
     private ArrayList<CherryAgent> getRocks() {
         ArrayList<CherryAgent> rocks = new ArrayList<CherryAgent>();
         int clusters = random.nextInt(4);
-        clusters = clusters +20;
+        clusters = clusters +2;
         System.out.println("number of clusters:" + clusters);
         for (int i=0; i<clusters; i++) {
             rocks.addAll(getRockCluster());
@@ -78,7 +83,7 @@ public class MarsEnvironment extends EnvironmentDescription {
         float z = .1f;
 
         int numberOfRocks = random.nextInt(3);
-        numberOfRocks = numberOfRocks +2;
+        numberOfRocks = numberOfRocks +4;
         System.out.println("number of rocks:" + numberOfRocks);
         for (int i=0; i<numberOfRocks; i++) {
             float carryX = (float) random.nextInt(250)/(float)100;
@@ -86,22 +91,22 @@ public class MarsEnvironment extends EnvironmentDescription {
                 carryX = -carryX;
             }
             carryX=carryX+x;
-            if (carryX > 10 ) {
-                carryX = 10;
+            if (carryX > 9.5f ) {
+                carryX = 9.5f;
             }
-            if (carryX < -10 ) {
-                carryX = -10;
+            if (carryX < -9.5f ) {
+                carryX = -9.5f;
             }
             float carryY = (float) random.nextInt(250)/(float)100;
             if(random.nextBoolean()){
                 carryY = -carryY;
             }
             carryY=carryY+y;
-            if (carryY > 10 ) {
-                carryY = 10;
+            if (carryY > 9.5f ) {
+                carryY = 9.5f;
             }
-            if (carryY < -10 ) {
-                carryY = -10;
+            if (carryY < -9.5f ) {
+                carryY = -9.5f;
             }
 
             rocks.add(new CherryAgent(new Vector3d(carryX, z, carryY),"rock",.3f));
