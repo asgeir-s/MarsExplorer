@@ -1,5 +1,6 @@
 package mars.explorer;
 
+import mars.explorer.knowledge.Spaceship;
 import simbad.sim.*;
 
 import javax.vecmath.Color3f;
@@ -45,7 +46,7 @@ public class MarsEnvironment extends EnvironmentDescription {
         // adding the mars rovers
         Rover newRover;
         for (int i = 0; i< NUMBEROFROVERS; i++) {
-            newRover = new Rover(new Vector3d(homeX+(i*0.5),0,homeY+(i*0.5)),"Rover" + i, this);
+            newRover = new Rover(new Vector3d(homeX+(i*0.5),0,homeY+(i*0.5)),"Rover" + i);
             add(newRover);
         }
 
@@ -54,7 +55,7 @@ public class MarsEnvironment extends EnvironmentDescription {
         for(CherryAgent rock: rocks) {
             add(rock);
         }
-        CherryAgent spaceship = new CherryAgent(new Vector3d(homeX, -1f, homeY), "spaceship", 1f);
+        Spaceship spaceship = new Spaceship(new Vector3d(homeX, -1f, homeY), "spaceship", 1f);
         spaceship.setColor(new Color3f(0, 0, 1));
         add(spaceship);
 
@@ -116,9 +117,4 @@ public class MarsEnvironment extends EnvironmentDescription {
         return rocks;
     }
 
-    public void addBreadcrumb(Double xPos, Double yPos) {
-        CherryAgent breadcrumb = new CherryAgent(new Vector3d(xPos, .2f, yPos), "breadcrumb", 1f);
-        breadcrumb.setColor(new Color3f(1, 1, 1));
-        add(breadcrumb);
-    }
 }

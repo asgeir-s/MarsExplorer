@@ -10,7 +10,7 @@ import java.util.Hashtable;
  * Creator: asgeir
  * Date: 08.11.13, 17:18
  */
-public class PrologHelper{
+public abstract class PrologHelper{
 
     static File knowledgeFile = newFile("knowledge/dynamic_knowledge.pl");
     static File tempFile = newFile("knowledge/TempFile.pl");
@@ -34,7 +34,7 @@ public class PrologHelper{
      *
      *        Example:
      *          assertToKB("on(a,b)")
-     * @param clause
+     * @param clause to be asserted to the knowledge base
      * @return true if clause is added to knowledgeFile or are present in the knowledgeFile from before
      */
     public static boolean assertToKB(String clause) {
@@ -80,7 +80,7 @@ public class PrologHelper{
 
     /**
      *
-     * @param inQuery
+     * @param inQuery the prolog query
      * @return hash-table with all solutions if query has solution, null otherwise
      */
     public static Hashtable[] query(String inQuery) {
@@ -101,7 +101,7 @@ public class PrologHelper{
 
     /**
      *
-     * @param inTerm
+     * @param inTerm the prolog query
      * @return hash-table with all solutions if query has solution, null otherwise
      */
     public static Hashtable[] query(Term inTerm) {
@@ -122,8 +122,8 @@ public class PrologHelper{
 
     /**
      *
-     * @param s
-     * @param terms
+     * @param s  the prolog predicate
+     * @param terms  the prolog atoms or variables
      * @return hash-table with all solutions if query has solution, null otherwise
      */
     public static Hashtable[] query(String s, Term[] terms) {
@@ -144,8 +144,8 @@ public class PrologHelper{
 
     /**
      *
-     * @param s
-     * @param term
+     * @param s the prolog predicate
+     * @param term the prolog atom or variable
      * @return hash-table with all solutions if query has solution, null otherwise
      */
     public static Hashtable[] query(String s, Term term) {
@@ -209,8 +209,8 @@ public class PrologHelper{
     }
 
     /**
-     * Print a file (debugging)
-     * @param file
+     * Print a file, line by line, for debugging
+     * @param file file to print
      */
     public void printFile(File file) {
         try {
@@ -229,7 +229,11 @@ public class PrologHelper{
 
     }
 
-
+    /**
+     * can make prolog result hashtables into arraylists
+     * @param hashtable (answr from Prolog)
+     * @return hashtable as ArrayList
+     */
     public static ArrayList<ArrayList<String>> hashtableTableToArraylist(Hashtable[] hw){
         ArrayList<ArrayList<String>> newArray = new ArrayList<ArrayList<String>>();
         for(int i = 0; i< hw.length; i++) {

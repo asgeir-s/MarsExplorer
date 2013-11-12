@@ -2,6 +2,7 @@ package mars.explorer;
 
 import jpl.*;
 import jpl.Float;
+import mars.explorer.knowledge.Spaceship;
 import simbad.sim.*;
 
 import javax.vecmath.Color3f;
@@ -18,12 +19,10 @@ public class Rover extends Robot {
     private LightSensor lightSensorLeft;
     private LightSensor lightSensorRight;
     private String name;
-    private MarsEnvironment environment;
 
-    public Rover(Vector3d position, String name, MarsEnvironment environment) {
+    public Rover(Vector3d position, String name) {
         super(position, name);
         this.name = name.toLowerCase();
-        this.environment = environment;
 
         lightSensorLeft = RobotFactory.addLightSensorLeft(this);
         lightSensorRight = RobotFactory.addLightSensorRight(this);
@@ -86,10 +85,6 @@ public class Rover extends Robot {
             if (toDoString.equals("home")) {
                 setColor(new Color3f(0, 1, 0));
                 goTowardsLight();
-                if ((getCounter() % 100) == 0) {
-                    environment.addBreadcrumb(xPos.doubleValue(),yPos.doubleValue());
-                    System.out.println("Breadcrumb added");
-                }
             }
 
             else if (toDoString.equals("pickup")) {
@@ -107,8 +102,9 @@ public class Rover extends Robot {
 
             else if (toDoString.equals("drop")) {
                 PrologHelper.retractFromKB("hasRock(" + name + ")");
-                System.out.println("rock delivered");
+                Spaceship spaceship = (Spaceship) getVeryNearAgent();
                 setColor(new Color3f(0, 1, 0));
+                System.out.println("rock delivered");
             }
         }
     }
